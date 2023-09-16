@@ -24,25 +24,90 @@
 // ViSi-Genie Displaying Temperature values from an Arduino Host - https://docs.4dsystems.com.au/app-note/4D-AN-00015/
 // ViSi-Genie Arduino Danger Shield - https://docs.4dsystems.com.au/app-note/4D-AN-00025
 
-Genie genie;
+
+#define Form_LockerScreen   0
+#define Form_PinEntry       1
+#define Form_Rec_off        2
+#define Form_Rec_on         3
+
+#define  LockbuttonLockScreen  0
+#define  Pinbutton1       1
+#define  Pinbutton2       2
+#define  Pinbutton3       4
+#define  Pinbutton6       5
+#define  Recordbutton_Form_record_off    6
+#define  Recordbutton_Form_record_on     8
+#define  Stopbutton_form_record_on       9
+
 #define RESETLINE 4  // Change this if you are not using an Arduino Adaptor Shield Version 2 (see code below)
 #define LED_PIN 9
 
-int g_gaugeAddVal = 1; // Simulation code variable. Value to change the gauge by each loop
-int g_gaugeVal = 50; // Simulation code variable. Value to start the gauge at when powered on
+Genie genie;
 bool g_isRecording = false;
 unsigned long g_recordingStartTime = 0;
+int g_securityPinNumber = 0;
+
+struct GaugeStruct 
+{
+    uint16_t value;
+    uint16_t incrementAmount;
+    uint16_t stopValue;
+    bool isIncrementing;
+};
+
+#define NUM_GAUGES 6
+GaugeStruct g_gauges[NUM_GAUGES] = {
+  {0,10,99,true},
+  {0,10,99,true},
+  {0,10,99,true},
+  {0,10,99,true},
+  {0,10,99,true},
+  {0,10,99,true}
+};
+
+uint16_t setNewGaugeValue(int index)
+{
+  GaugeStruct &gauge = g_gauges[index];
+  if( gauge.isIncrementing )
+  {
+    if( gauge.value + gauge.incrementAmount >= gauge.stopValue)
+    {
+      gauge.isIncrementing = false;
+      gauge.incrementAmount = random(5,10);
+      gauge.stopValue = random(1,gauge.value);
+    }
+    else
+    {
+      gauge.value += gauge.incrementAmount;
+    }
+  }
+  else //decrementing
+  {
+    if( gauge.value < gauge.incrementAmount)
+    {
+      gauge.isIncrementing = true;
+      gauge.incrementAmount = random(10,15);
+      gauge.stopValue = random(gauge.value, 99);
+    }
+    else
+    {
+      gauge.value -= gauge.incrementAmount;
+    }
+  }
+  return gauge.value;
+}
+
 
 void setup()
 {
-    pinMode(LED_PIN, OUTPUT);
-    digitalWrite(LED_PIN, 1);
+  pinMode(LED_PIN, OUTPUT);
+  digitalWrite(LED_PIN, 1);
 
   // Use a Serial Begin and serial port of your choice in your code and use the 
   // genie.Begin function to send it to the Genie library (see this example below)
   // 200K Baud is good for most Arduinos. Galileo should use 115200.  
   // Some Arduino variants use Serial1 for the TX/RX pins, as Serial0 is for USB.
-  Serial.begin(9600);  // Serial0 @ 200000 (200K) Baud
+  Serial.begin(115200);  // Serial0 @ 200000 (200K) Baud
   genie.Begin(Serial);   // Use Serial0 for talking to the Genie Library, and to the 4D Systems display
 
   genie.AttachEventHandler(myGenieEventHandler); // Attach the user function Event Handler for processing events
@@ -75,66 +140,40 @@ void setup()
 
 void loop()
 {
-  static unsigned long waitPeriod = millis();
+  // Write to Arduino LED heartbeat on each 10 iterations
   static int ledCount = 0;
+  if(ledCount < 2 )
+      digitalWrite(LED_PIN, 1);
+  else if(ledCount <10 )
+      digitalWrite(LED_PIN, 0);
+  ledCount = ++ledCount % 100;
+
 
   genie.DoEvents(); // This calls the library each loop to process the queued responses from the display
-
-  if (millis() >= waitPeriod)
+  
+  if( g_isRecording )
   {
-    // Write to CoolGauge0 with the value in the gaugeVal variable
-    if(ledCount < 2 )
-        digitalWrite(LED_PIN, 1);
-    else if(ledCount <10 )
-        digitalWrite(LED_PIN, 0);
-    
-    ledCount = ++ledCount % 10;
-
-    
-    // The results of this call will be available to myGenieEventHandler() after the display has responded
-    //genie.ReadObject(GENIE_OBJ_USER_LED, 0); // Do a manual read from the UserLEd0 object
-
-
-    waitPeriod = millis() + 5; // rerun this code to update Cool Gauge and Slider in another 50ms time.
-
-    if( g_isRecording )
-    {
-        unsigned long recordingTime = (millis() - g_recordingStartTime)/1000;
-        int seconds = recordingTime % 60;
-        int minutes = (recordingTime / 60 ) % 60;
-        int hours =  (recordingTime /60/60) % 24;
-        
-        genie.WriteObject(GENIE_OBJ_CUSTOM_DIGITS, 0, hours);
-        genie.WriteObject(GENIE_OBJ_CUSTOM_DIGITS, 1, minutes);
-        genie.WriteObject(GENIE_OBJ_CUSTOM_DIGITS, 2, seconds);
-        // Simulation code, just to increment and decrement gauge value each loop, for animation
-        g_gaugeVal += g_gaugeAddVal;
-        if (g_gaugeVal >= 99)
-        {
-            g_gaugeVal = 99;
-            g_gaugeAddVal = -random(1,5);
-        }
-        if (g_gaugeVal <= 0) 
-        {
-            g_gaugeVal = 0;
-            g_gaugeAddVal = random(1,5);
-        }
-
-    }
-    else
-    {
-        genie.WriteObject(GENIE_OBJ_CUSTOM_DIGITS, 0, 0);
-        genie.WriteObject(GENIE_OBJ_CUSTOM_DIGITS, 1, 0);
-        genie.WriteObject(GENIE_OBJ_CUSTOM_DIGITS, 2, 0);
-
-        g_gaugeVal = 0;
-    }
-
-    for(int i=0; i<4; i++)
-    {
-        genie.WriteObject(GENIE_OBJ_GAUGE, i, g_gaugeVal);
-    }
-
+      //update recording time
+      unsigned long recordingTime = (millis() - g_recordingStartTime)/1000;
+      int seconds = recordingTime % 60;
+      int minutes = (recordingTime / 60 ) % 60;
+      int hours =  (recordingTime /60/60) % 24;
+      
+      genie.WriteObject(GENIE_OBJ_CUSTOM_DIGITS, 0, hours);
+      genie.WriteObject(GENIE_OBJ_CUSTOM_DIGITS, 1, minutes);
+      genie.WriteObject(GENIE_OBJ_CUSTOM_DIGITS, 2, seconds);
+      // Simulation code, just to increment and decrement gauge value each loop, for animation
+      for(uint16_t index = 0; index < NUM_GAUGES;index++)
+      {
+        genie.WriteObject(GENIE_OBJ_GAUGE, index, setNewGaugeValue(index));
+      }
+  }
+  else
+  {
+      //set time back to 0
+      genie.WriteObject(GENIE_OBJ_CUSTOM_DIGITS, 0, 0);
+      genie.WriteObject(GENIE_OBJ_CUSTOM_DIGITS, 1, 0);
+      genie.WriteObject(GENIE_OBJ_CUSTOM_DIGITS, 2, 0);
   }
 }
 
@@ -150,81 +189,70 @@ void loop()
 // from the display or a REPORT_OBJ frame sent by the display in
 // response to a READ_OBJ (genie.ReadObject) request.
 //
-
-/* COMPACT VERSION HERE, LONGHAND VERSION BELOW WHICH MAY MAKE MORE SENSE
-void myGenieEventHandler(void)
-{
-  genieFrame Event;
-  genie.DequeueEvent(&Event);
-
-  int slider_val = 0;
-
-  //Filter Events from Slider0 (Index = 0) for a Reported Message from Display
-  if (genie.EventIs(&Event, GENIE_REPORT_EVENT, GENIE_OBJ_SLIDER, 0))
-  {
-    slider_val = genie.GetEventData(&Event);  // Receive the event data from the Slider0
-    genie.WriteObject(GENIE_OBJ_LED_DIGITS, 0, slider_val);     // Write Slider0 value to LED Digits 0
-  }
-
-  //Filter Events from UserLed0 (Index = 0) for a Reported Object from Display (triggered from genie.ReadObject in User Code)
-  if (genie.EventIs(&Event, GENIE_REPORT_OBJ,   GENIE_OBJ_USER_LED, 0))
-  {
-    bool UserLed0_val = genie.GetEventData(&Event);               // Receive the event data from the UserLed0
-    UserLed0_val = !UserLed0_val;                                 // Toggle the state of the User LED Variable
-    genie.WriteObject(GENIE_OBJ_USER_LED, 0, UserLed0_val);       // Write UserLed0_val value back to UserLed0
-  }
-} */
-
 // LONG HAND VERSION, MAYBE MORE VISIBLE AND MORE LIKE VERSION 1 OF THE LIBRARY
 void myGenieEventHandler(void)
 {
-    genieFrame Event;
-    genie.DequeueEvent(&Event); // Remove the next queued event from the buffer, and process it below
+  genieFrame Event;
+  genie.DequeueEvent(&Event); // Remove the next queued event from the buffer, and process it below
 
-    int slider_val = 0;
 
   //If the cmd received is from a Reported Event (Events triggered from the Events tab of Workshop4 objects)
   if (Event.reportObject.cmd == GENIE_REPORT_EVENT)
   {
-    if (Event.reportObject.object == GENIE_OBJ_4DBUTTON)                // If the Reported Message was from a Slider
+    if( Event.reportObject.object == GENIE_OBJ_USERBUTTON)
     {
-        if (Event.reportObject.index == 0)                              // If Slider0 (Index = 0)
+      //start recording
+      if (Event.reportObject.index == Recordbutton_Form_record_off && !g_isRecording )
+      {
+          g_isRecording = true;
+          genie.WriteObject(GENIE_OBJ_FORM, Form_Rec_on, 0);    //Show the recording on form 
+          genie.WriteObject(GENIE_OBJ_USERBUTTON, Recordbutton_Form_record_on, 1);    //Set the button state to "down" 
+          g_recordingStartTime = millis();
+      }
+      
+      //stop recording
+      if (Event.reportObject.index == Stopbutton_form_record_on && g_isRecording )
+      {
+          g_isRecording = false;
+          genie.WriteObject(GENIE_OBJ_FORM, Form_Rec_off, 0);    //Show the recording off form 
+      }
+      
+      //Pin number entry
+      if(Event.reportObject.index >= Pinbutton1 && Event.reportObject.index <= Pinbutton6)
+      {
+        if( Event.reportObject.data_lsb == 0)
+          genie.WriteObject(GENIE_OBJ_USERBUTTON, Event.reportObject.index, 1);    //Set the button state to "down" 
+        else
+          genie.WriteObject(GENIE_OBJ_USERBUTTON, Event.reportObject.index, 0);    //Set the button state to "up" 
+
+        int digit = 0;
+        switch (Event.reportObject.index)
         {
-            g_isRecording = !g_isRecording;
-            if( g_isRecording )
-                g_recordingStartTime = millis();
-        //genie.WriteObject(GENIE_OBJ_LED_DIGITS, 0, slider_val);       // Write Slider0 value to LED Digits 0
+          case Pinbutton1: digit = 1; break;
+          case Pinbutton2: digit = 2; break;
+          case Pinbutton3: digit = 3; break;
+          case Pinbutton6: digit = 6; break;
         }
-    }
-    // if (Event.reportObject.object == GENIE_OBJ_SLIDER)                // If the Reported Message was from a Slider
-    // {
-    //   if (Event.reportObject.index == 0)                              // If Slider0 (Index = 0)
-    //   {
-    //     slider_val = genie.GetEventData(&Event);                      // Receive the event data from the Slider0
-    //     genie.WriteObject(GENIE_OBJ_LED_DIGITS, 0, slider_val);       // Write Slider0 value to LED Digits 0
-    //   }
-    // }
+        g_securityPinNumber = g_securityPinNumber* 10 + digit;
+        if( g_securityPinNumber == 1236)
+        {
+          //correct pin. Show the recording off form
+          genie.WriteObject(GENIE_OBJ_FORM, Form_Rec_off, 0);    //Show the recording off form 
+          genie.WriteObject(GENIE_OBJ_USERBUTTON, Pinbutton1, 0);    //Set the button state to "down" 
+          genie.WriteObject(GENIE_OBJ_USERBUTTON, Pinbutton2, 0);    //Set the button state to "down" 
+          genie.WriteObject(GENIE_OBJ_USERBUTTON, Pinbutton3, 0);    //Set the button state to "down" 
+          genie.WriteObject(GENIE_OBJ_USERBUTTON, Pinbutton6, 0);    //Set the button state to "down" 
+        }
+        else if(g_securityPinNumber > 1236)
+        {
+          //reset the pin
+          g_securityPinNumber = 0;
+          genie.WriteObject(GENIE_OBJ_USERBUTTON, Pinbutton1, 0);    //Set the button state to "down" 
+          genie.WriteObject(GENIE_OBJ_USERBUTTON, Pinbutton2, 0);    //Set the button state to "down" 
+          genie.WriteObject(GENIE_OBJ_USERBUTTON, Pinbutton3, 0);    //Set the button state to "down" 
+          genie.WriteObject(GENIE_OBJ_USERBUTTON, Pinbutton6, 0);    //Set the button state to "down" 
+        }
+      }
+    }  
   }
-
-  //If the cmd received is from a Reported Object, which occurs if a Read Object (genie.ReadOject) is requested in the main code, reply processed here.
-//   if (Event.reportObject.cmd == GENIE_REPORT_OBJ)
-//   {
-//     if (Event.reportObject.object == GENIE_OBJ_USER_LED)              // If the Reported Message was from a User LED
-//     {
-//       if (Event.reportObject.index == 0)                              // If UserLed0 (Index = 0)
-//       {
-//         bool UserLed0_val = genie.GetEventData(&Event);               // Receive the event data from the UserLed0
-//         UserLed0_val = !UserLed0_val;                                 // Toggle the state of the User LED Variable
-//         genie.WriteObject(GENIE_OBJ_USER_LED, 0, UserLed0_val);       // Write UserLed0_val value back to UserLed0
-//       }
-//     }
-//   }
-
-  /********** This can be expanded as more objects are added that need to be captured *************
-  *************************************************************************************************
-  Event.reportObject.cmd is used to determine the command of that event, such as an reported event
-  Event.reportObject.object is used to determine the object type, such as a Slider
-  Event.reportObject.index is used to determine the index of the object, such as Slider0
-  genie.GetEventData(&Event) us used to save the data from the Event, into a variable.
-  *************************************************************************************************/
 }

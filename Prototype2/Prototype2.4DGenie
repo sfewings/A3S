@@ -1,0 +1,931 @@
+﻿Version     0.0
+Platform    Gen4-uLCD-50DT-L
+PlatRes     480x800
+Depends
+end
+Options
+    Genie
+    Speed                        115200
+    Checksum                     No
+    ResponseSize                 2
+    Multidrop                    No
+    Destination                  1
+    DestBank                     0
+    MainForm                     0
+    SndBuf                       0
+    ButtonDisable                No
+    SignedDigits                 No
+    MaxString                    75
+    ComPort                      0
+    ComTX1pinIdx                 0
+    ComRX1pinIdx                 0
+    FileSystem                   FATfs
+    FlashEraseOption             Optimal
+    SPIenable                    0
+    SPIsdo                       3
+    SPIsdi                       2
+    SPIsck                       1
+    ForceProgramFlash            No
+    PixxiuSDSpeed                0
+    FlashForceLT16MB             No
+end
+Form
+    Name                         Form0
+    Alias                        Form_LockerScreen
+    Bgtype                       Image
+    Color                        BLACK
+    Image                        'Locked Screen.png'
+    Source.Height                480
+    Source.Left                  0
+    Source.Top                   0
+    Source.Width                 800
+    OnActivate                   ''
+    OnCreate                     ''
+    OnRepeat                     ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+UserButton
+    Name                         Userbutton0
+    Alias                        Userbutton0
+    Height                       50
+    Images                       menu_lock_down.png\nmenu_lock_down_pressed.png\nmenu_lock_up.png\nmenu_lock_up_pressed.png
+    Left                         380
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          412
+    Width                        45
+    OnChanged                    Form1Activate
+end
+Form
+    Name                         Form1
+    Alias                        Form_PinEntry
+    Bgtype                       Image
+    Color                        BLACK
+    Image                        'Keypad 1.png'
+    Source.Height                480
+    Source.Left                  0
+    Source.Top                   0
+    Source.Width                 800
+    OnActivate                   ''
+    OnCreate                     ''
+    OnRepeat                     ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+UserButton
+    Name                         Userbutton1
+    Alias                        PinButton1
+    Height                       85
+    Images                       Pin1_up.PNG\nPin1_up_pressed.png\nPin1_down.png\nPin1_down_pressed.png
+    Left                         220
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          74
+    Width                        88
+    OnChanged                    'Report Message'
+end
+UserButton
+    Name                         Userbutton2
+    Alias                        Pinbutton2
+    Height                       85
+    Images                       Pin2_up.png\nPin2_up_pressed.png\nPin2_down.png\nPin2_down_pressed.png
+    Left                         355
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          71
+    Width                        88
+    OnChanged                    'Report Message'
+end
+UserButton
+    Name                         Userbutton3
+    Alias                        Lockbutton
+    Height                       50
+    Images                       menu_lock_down.png\nmenu_lock_down_pressed.png\nmenu_lock_up.png\nmenu_lock_up_pressed.png
+    Left                         380
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          412
+    Width                        45
+    OnChanged                    Form0Activate
+end
+UserButton
+    Name                         Userbutton4
+    Alias                        Pinbutton3
+    Height                       85
+    Images                       Pin3_up.png\nPin3_up_pressed.png\nPin3_down.png\nPin3_down_pressed.png
+    Left                         491
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          71
+    Width                        88
+    OnChanged                    'Report Message'
+end
+UserButton
+    Name                         Userbutton5
+    Alias                        Userbutton5
+    Height                       85
+    Images                       Pin6_up.png\nPin6_up_pressed.png\nPin6_down.png\nPin6_down_pressed.png
+    Left                         491
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          195
+    Width                        88
+    OnChanged                    'Report Message'
+end
+Form
+    Name                         Form2
+    Alias                        Form_Rec_off
+    Bgtype                       Image
+    Color                        BLACK
+    Image                        'Rec Off.png'
+    Source.Height                480
+    Source.Left                  0
+    Source.Top                   0
+    Source.Width                 800
+    OnActivate                   ''
+    OnCreate                     ''
+    OnRepeat                     ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+UserButton
+    Name                         Userbutton6
+    Alias                        Recordbutton_Form_record_off
+    Height                       134
+    Images                       Record_up.png\nRecord_up_pressed.png\nRecord_down.png\nRecord_down_pressed.png
+    Left                         113
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          301
+    Width                        140
+    OnChanged                    'Report Message'
+end
+UserButton
+    Name                         Userbutton10
+    Alias                        Userbutton10
+    Height                       50
+    Images                       menu_lock_up.png\nmenu_lock_up_pressed.png\nmenu_lock_down.png\nmenu_lock_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          424
+    Width                        45
+    OnChanged                    Form1Activate
+end
+UserButton
+    Name                         Userbutton11
+    Alias                        Userbutton11
+    Height                       55
+    Images                       menu_play_up.png\nmenu_play_up_pressed.png\nmenu_play_down.png\nmenu_play_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          140
+    Width                        45
+    OnChanged                    Form4Activate
+end
+UserButton
+    Name                         Userbutton12
+    Alias                        Userbutton12
+    Height                       50
+    Images                       menu_file_up.png\nmenu_file_up_pressed.png\nmenu_file_down.png\nmenu_file_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          214
+    Width                        45
+    OnChanged                    Form5Activate
+end
+UserButton
+    Name                         Userbutton13
+    Alias                        Userbutton13
+    Height                       50
+    Images                       menu_disk_up.png\nmenu_disk_up_pressed.png\nmenu_disk_down.png\nmenu_disk_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          285
+    Width                        45
+    OnChanged                    Form6Activate
+end
+UserButton
+    Name                         Userbutton14
+    Alias                        Userbutton14
+    Height                       50
+    Images                       menu_hybrid_up.png\nmenu_hybrid_up_pressed.png\nmenu_hybrid_down.png\nmenu_hybrid_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          360
+    Width                        45
+    OnChanged                    Form7Activate
+end
+Form
+    Name                         Form3
+    Alias                        Form_Rec_on
+    Bgtype                       Image
+    Color                        BLACK
+    Image                        'Rec On - B.png'
+    Source.Height                480
+    Source.Left                  0
+    Source.Top                   0
+    Source.Width                 800
+    OnActivate                   ''
+    OnCreate                     ''
+    OnRepeat                     ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+UserButton
+    Name                         Userbutton7
+    Alias                        Userbutton7
+    Height                       35
+    Images                       ''
+    Left                         177
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          365
+    Width                        70
+    OnChanged                    ''
+end
+UserButton
+    Name                         Userbutton8
+    Alias                        Recordbutton_form_record_on
+    Height                       134
+    Images                       Record_up.png\nRecord_up_pressed.png\nRecord_down.png\nRecord_down_pressed.png
+    Left                         113
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          301
+    Width                        140
+    OnChanged                    'Report Message'
+end
+CustomDigits
+    Name                         Customdigits0
+    Alias                        Customdigits0
+    Bitmap                       Digits.bmp
+    Digits                       2
+    LeadingZero                  Yes
+    Left                         56
+    Top                          176
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+CustomDigits
+    Name                         Customdigits1
+    Alias                        Customdigits1
+    Bitmap                       Digits.bmp
+    Digits                       2
+    LeadingZero                  Yes
+    Left                         196
+    Top                          176
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+CustomDigits
+    Name                         Customdigits2
+    Alias                        Customdigits2
+    Bitmap                       Digits.bmp
+    Digits                       2
+    LeadingZero                  Yes
+    Left                         336
+    Top                          176
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+UserButton
+    Name                         Userbutton9
+    Alias                        Stopbutton_form_record_on
+    Height                       134
+    Images                       Stop_up.png\nStop_up_pressed.png\nStop_down.png\nStop_down_pressed.png
+    Left                         279
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          303
+    Width                        140
+    OnChanged                    'Report Message'
+end
+Gauge
+    Name                         Gauge0
+    Alias                        Gauge0
+    Bevel.BorderColor            clBtnFace
+    Bevel.BorderWidth            0
+    Bevel.InnerColor             BLACK
+    Bevel.InnerHighlight         clBtnHighlight
+    Bevel.InnerOutline           None
+    Bevel.InnerShadow            clBtnShadow
+    Bevel.InnerSpace             1
+    Bevel.InnerStyle             Lowered
+    Bevel.Innerwidth             2
+    Bevel.OuterColor             clBtnFace
+    Bevel.OuterHighlight         clBtnHighlight
+    Bevel.OuterOutline           Outer
+    Bevel.OuterShadow            clBtnShadow
+    Bevel.OuterSpace             0
+    Bevel.OuterStyle             Raised
+    Bevel.Outerwidth             1
+    Bevel.Visible                Yes
+    Color                        BLACK
+    Height                       450
+    Left                         500
+    Maxvalue                     100
+    Minvalue                     0
+    Orientation                  Vertical
+    Palette1.High                clLime
+    Palette1.Low                 0x005100
+    Palette2.High                clYellow
+    Palette2.Low                 0x005151
+    Palette3.High                clRed
+    Palette3.Low                 0x000051
+    Percent1                     60
+    Percent2                     25
+    Spacing                      1
+    Step                         10
+    Style                        BottomLeft
+    TickHeight                   1
+    Top                          20
+    Width                        30
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+Gauge
+    Name                         Gauge1
+    Alias                        Gauge1
+    Bevel.BorderColor            clBtnFace
+    Bevel.BorderWidth            0
+    Bevel.InnerColor             BLACK
+    Bevel.InnerHighlight         clBtnHighlight
+    Bevel.InnerOutline           None
+    Bevel.InnerShadow            clBtnShadow
+    Bevel.InnerSpace             1
+    Bevel.InnerStyle             Lowered
+    Bevel.Innerwidth             2
+    Bevel.OuterColor             clBtnFace
+    Bevel.OuterHighlight         clBtnHighlight
+    Bevel.OuterOutline           Outer
+    Bevel.OuterShadow            clBtnShadow
+    Bevel.OuterSpace             0
+    Bevel.OuterStyle             Raised
+    Bevel.Outerwidth             1
+    Bevel.Visible                Yes
+    Color                        BLACK
+    Height                       450
+    Left                         550
+    Maxvalue                     100
+    Minvalue                     0
+    Orientation                  Vertical
+    Palette1.High                clLime
+    Palette1.Low                 0x005100
+    Palette2.High                clYellow
+    Palette2.Low                 0x005151
+    Palette3.High                clRed
+    Palette3.Low                 0x000051
+    Percent1                     60
+    Percent2                     25
+    Spacing                      1
+    Step                         10
+    Style                        BottomLeft
+    TickHeight                   1
+    Top                          20
+    Width                        30
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+Gauge
+    Name                         Gauge2
+    Alias                        Gauge2
+    Bevel.BorderColor            clBtnFace
+    Bevel.BorderWidth            0
+    Bevel.InnerColor             BLACK
+    Bevel.InnerHighlight         clBtnHighlight
+    Bevel.InnerOutline           None
+    Bevel.InnerShadow            clBtnShadow
+    Bevel.InnerSpace             1
+    Bevel.InnerStyle             Lowered
+    Bevel.Innerwidth             2
+    Bevel.OuterColor             clBtnFace
+    Bevel.OuterHighlight         clBtnHighlight
+    Bevel.OuterOutline           Outer
+    Bevel.OuterShadow            clBtnShadow
+    Bevel.OuterSpace             0
+    Bevel.OuterStyle             Raised
+    Bevel.Outerwidth             1
+    Bevel.Visible                Yes
+    Color                        BLACK
+    Height                       450
+    Left                         600
+    Maxvalue                     100
+    Minvalue                     0
+    Orientation                  Vertical
+    Palette1.High                clLime
+    Palette1.Low                 0x005100
+    Palette2.High                clYellow
+    Palette2.Low                 0x005151
+    Palette3.High                clRed
+    Palette3.Low                 0x000051
+    Percent1                     60
+    Percent2                     25
+    Spacing                      1
+    Step                         10
+    Style                        BottomLeft
+    TickHeight                   1
+    Top                          20
+    Width                        30
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+Gauge
+    Name                         Gauge3
+    Alias                        Gauge3
+    Bevel.BorderColor            clBtnFace
+    Bevel.BorderWidth            0
+    Bevel.InnerColor             BLACK
+    Bevel.InnerHighlight         clBtnHighlight
+    Bevel.InnerOutline           None
+    Bevel.InnerShadow            clBtnShadow
+    Bevel.InnerSpace             1
+    Bevel.InnerStyle             Lowered
+    Bevel.Innerwidth             2
+    Bevel.OuterColor             clBtnFace
+    Bevel.OuterHighlight         clBtnHighlight
+    Bevel.OuterOutline           Outer
+    Bevel.OuterShadow            clBtnShadow
+    Bevel.OuterSpace             0
+    Bevel.OuterStyle             Raised
+    Bevel.Outerwidth             1
+    Bevel.Visible                Yes
+    Color                        BLACK
+    Height                       450
+    Left                         650
+    Maxvalue                     100
+    Minvalue                     0
+    Orientation                  Vertical
+    Palette1.High                clLime
+    Palette1.Low                 0x005100
+    Palette2.High                clYellow
+    Palette2.Low                 0x005151
+    Palette3.High                clRed
+    Palette3.Low                 0x000051
+    Percent1                     60
+    Percent2                     25
+    Spacing                      1
+    Step                         10
+    Style                        BottomLeft
+    TickHeight                   1
+    Top                          20
+    Width                        30
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+Gauge
+    Name                         Gauge4
+    Alias                        Gauge4
+    Bevel.BorderColor            clBtnFace
+    Bevel.BorderWidth            0
+    Bevel.InnerColor             BLACK
+    Bevel.InnerHighlight         clBtnHighlight
+    Bevel.InnerOutline           None
+    Bevel.InnerShadow            clBtnShadow
+    Bevel.InnerSpace             1
+    Bevel.InnerStyle             Lowered
+    Bevel.Innerwidth             2
+    Bevel.OuterColor             clBtnFace
+    Bevel.OuterHighlight         clBtnHighlight
+    Bevel.OuterOutline           Outer
+    Bevel.OuterShadow            clBtnShadow
+    Bevel.OuterSpace             0
+    Bevel.OuterStyle             Raised
+    Bevel.Outerwidth             1
+    Bevel.Visible                Yes
+    Color                        BLACK
+    Height                       450
+    Left                         700
+    Maxvalue                     100
+    Minvalue                     0
+    Orientation                  Vertical
+    Palette1.High                clLime
+    Palette1.Low                 0x005100
+    Palette2.High                clYellow
+    Palette2.Low                 0x005151
+    Palette3.High                clRed
+    Palette3.Low                 0x000051
+    Percent1                     60
+    Percent2                     25
+    Spacing                      1
+    Step                         10
+    Style                        BottomLeft
+    TickHeight                   1
+    Top                          20
+    Width                        30
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+Gauge
+    Name                         Gauge5
+    Alias                        Gauge5
+    Bevel.BorderColor            clBtnFace
+    Bevel.BorderWidth            0
+    Bevel.InnerColor             BLACK
+    Bevel.InnerHighlight         clBtnHighlight
+    Bevel.InnerOutline           None
+    Bevel.InnerShadow            clBtnShadow
+    Bevel.InnerSpace             1
+    Bevel.InnerStyle             Lowered
+    Bevel.Innerwidth             2
+    Bevel.OuterColor             clBtnFace
+    Bevel.OuterHighlight         clBtnHighlight
+    Bevel.OuterOutline           Outer
+    Bevel.OuterShadow            clBtnShadow
+    Bevel.OuterSpace             0
+    Bevel.OuterStyle             Raised
+    Bevel.Outerwidth             1
+    Bevel.Visible                Yes
+    Color                        BLACK
+    Height                       450
+    Left                         750
+    Maxvalue                     100
+    Minvalue                     0
+    Orientation                  Vertical
+    Palette1.High                clLime
+    Palette1.Low                 0x005100
+    Palette2.High                clYellow
+    Palette2.Low                 0x005151
+    Palette3.High                clRed
+    Palette3.Low                 0x000051
+    Percent1                     60
+    Percent2                     25
+    Spacing                      1
+    Step                         10
+    Style                        BottomLeft
+    TickHeight                   1
+    Top                          20
+    Width                        30
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+Form
+    Name                         Form4
+    Alias                        Form_Play_off
+    Bgtype                       Image
+    Color                        BLACK
+    Image                        'Ply Off.png'
+    Source.Height                480
+    Source.Left                  0
+    Source.Top                   0
+    Source.Width                 800
+    OnActivate                   ''
+    OnCreate                     ''
+    OnRepeat                     ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+UserButton
+    Name                         Userbutton30
+    Alias                        Userbutton30
+    Height                       50
+    Images                       menu_record_up.png\nmenu_record_up_pressed.png\nmenu_record_down.png\nmenu_record_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          72
+    Width                        45
+    OnChanged                    Form2Activate
+end
+UserButton
+    Name                         Userbutton31
+    Alias                        Userbutton31
+    Height                       50
+    Images                       menu_file_up.png\nmenu_file_up_pressed.png\nmenu_file_down.png\nmenu_file_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          215
+    Width                        45
+    OnChanged                    Form5Activate
+end
+UserButton
+    Name                         Userbutton32
+    Alias                        Userbutton32
+    Height                       50
+    Images                       menu_disk_up.png\nmenu_disk_up_pressed.png\nmenu_disk_down.png\nmenu_disk_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          287
+    Width                        45
+    OnChanged                    Form6Activate
+end
+UserButton
+    Name                         Userbutton33
+    Alias                        Userbutton33
+    Height                       50
+    Images                       menu_hybrid_up.png\nmenu_hybrid_up_pressed.png\nmenu_hybrid_down.png\nmenu_hybrid_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          364
+    Width                        45
+    OnChanged                    Form7Activate
+end
+UserButton
+    Name                         Userbutton34
+    Alias                        Userbutton34
+    Height                       50
+    Images                       menu_lock_up.png\nmenu_lock_up_pressed.png\nmenu_lock_down.png\nmenu_lock_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          423
+    Width                        45
+    OnChanged                    Form0Activate
+end
+Form
+    Name                         Form5
+    Alias                        Form_Files
+    Bgtype                       Image
+    Color                        BLACK
+    Image                        'Files 3.png'
+    Source.Height                480
+    Source.Left                  0
+    Source.Top                   0
+    Source.Width                 800
+    OnActivate                   ''
+    OnCreate                     ''
+    OnRepeat                     ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+UserButton
+    Name                         Userbutton15
+    Alias                        Userbutton15
+    Height                       50
+    Images                       menu_record_up.png\nmenu_record_up_pressed.png\nmenu_record_down.png\nmenu_record_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          71
+    Width                        45
+    OnChanged                    ''
+end
+UserButton
+    Name                         Userbutton16
+    Alias                        Userbutton16
+    Height                       55
+    Images                       menu_play_up.png\nmenu_play_up_pressed.png\nmenu_play_down.png\nmenu_play_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          140
+    Width                        45
+    OnChanged                    Form4Activate
+end
+UserButton
+    Name                         Userbutton17
+    Alias                        Userbutton17
+    Height                       50
+    Images                       menu_disk_up.png\nmenu_disk_up_pressed.png\nmenu_disk_down.png\nmenu_disk_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          288
+    Width                        45
+    OnChanged                    Form6Activate
+end
+UserButton
+    Name                         Userbutton18
+    Alias                        Userbutton18
+    Height                       50
+    Images                       menu_hybrid_up.png\nmenu_hybrid_up_pressed.png\nmenu_hybrid_down.png\nmenu_hybrid_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          363
+    Width                        45
+    OnChanged                    Form7Activate
+end
+UserButton
+    Name                         Userbutton19
+    Alias                        Userbutton19
+    Height                       50
+    Images                       menu_lock_up.png\nmenu_lock_up_pressed.png\nmenu_lock_down.png\nmenu_lock_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          424
+    Width                        45
+    OnChanged                    Form0Activate
+end
+Form
+    Name                         Form6
+    Alias                        Form_Disk
+    Bgtype                       Image
+    Color                        BLACK
+    Image                        Archive.png
+    Source.Height                480
+    Source.Left                  0
+    Source.Top                   0
+    Source.Width                 800
+    OnActivate                   ''
+    OnCreate                     ''
+    OnRepeat                     ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+UserButton
+    Name                         Userbutton20
+    Alias                        Userbutton20
+    Height                       50
+    Images                       menu_record_up.png\nmenu_record_up_pressed.png\nmenu_record_down.png\nmenu_record_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          72
+    Width                        45
+    OnChanged                    Form2Activate
+end
+UserButton
+    Name                         Userbutton21
+    Alias                        Userbutton21
+    Height                       55
+    Images                       menu_play_up.png\nmenu_play_up_pressed.png\nmenu_play_down.png\nmenu_play_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          144
+    Width                        45
+    OnChanged                    Form4Activate
+end
+UserButton
+    Name                         Userbutton22
+    Alias                        Userbutton22
+    Height                       50
+    Images                       menu_file_up.png\nmenu_file_up_pressed.png\nmenu_file_down.png\nmenu_file_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          214
+    Width                        45
+    OnChanged                    Form5Activate
+end
+UserButton
+    Name                         Userbutton23
+    Alias                        Userbutton23
+    Height                       50
+    Images                       menu_hybrid_up.png\nmenu_hybrid_up_pressed.png\nmenu_hybrid_down.png\nmenu_hybrid_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          364
+    Width                        45
+    OnChanged                    Form7Activate
+end
+UserButton
+    Name                         Userbutton24
+    Alias                        Userbutton24
+    Height                       50
+    Images                       menu_lock_up.png\nmenu_lock_up_pressed.png\nmenu_lock_down.png\nmenu_lock_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          424
+    Width                        45
+    OnChanged                    Form0Activate
+end
+Form
+    Name                         Form7
+    Alias                        Form_Hybrid
+    Bgtype                       Image
+    Color                        BLACK
+    Image                        'Google Meet.png'
+    Source.Height                480
+    Source.Left                  0
+    Source.Top                   0
+    Source.Width                 800
+    OnActivate                   ''
+    OnCreate                     ''
+    OnRepeat                     ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+UserButton
+    Name                         Userbutton25
+    Alias                        Userbutton25
+    Height                       50
+    Images                       menu_record_up.png\nmenu_record_up_pressed.png\nmenu_record_down.png\nmenu_record_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          76
+    Width                        45
+    OnChanged                    Form2Activate
+end
+UserButton
+    Name                         Userbutton26
+    Alias                        Userbutton26
+    Height                       55
+    Images                       menu_play_up.png\nmenu_play_up_pressed.png\nmenu_play_down.png\nmenu_play_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          140
+    Width                        45
+    OnChanged                    Form4Activate
+end
+UserButton
+    Name                         Userbutton27
+    Alias                        Userbutton27
+    Height                       50
+    Images                       menu_file_up.png\nmenu_file_up_pressed.png\nmenu_file_down.png\nmenu_file_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          216
+    Width                        45
+    OnChanged                    Form5Activate
+end
+UserButton
+    Name                         Userbutton28
+    Alias                        Userbutton28
+    Height                       50
+    Images                       menu_disk_up.png\nmenu_disk_up_pressed.png\nmenu_disk_down.png\nmenu_disk_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          288
+    Width                        45
+    OnChanged                    Form6Activate
+end
+UserButton
+    Name                         Userbutton29
+    Alias                        Userbutton29
+    Height                       50
+    Images                       menu_lock_up.png\nmenu_lock_up_pressed.png\nmenu_lock_down.png\nmenu_lock_down_pressed.png
+    Left                         8
+    Matrix                       -1
+    Momentary                    Yes
+    Stretch                      No
+    Top                          424
+    Width                        45
+    OnChanged                    Form0Activate
+end

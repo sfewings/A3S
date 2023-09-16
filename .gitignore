@@ -32,3 +32,5 @@ _ReSharper*/
 packages/
 #VSCode
 .vscode/
+3D models/
+Examples/
